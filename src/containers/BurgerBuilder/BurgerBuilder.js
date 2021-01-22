@@ -20,7 +20,7 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchasing: false,
     loading: false,
-    error: false
+    error: false,
   };
 
   componentDidMount() {
@@ -28,11 +28,11 @@ class BurgerBuilder extends Component {
       .get(
         'https://the-burger-builder-fb05f-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json'
       )
-      .then(res => {
+      .then((res) => {
         this.setState({ ingredients: res.data });
       })
-      .catch(err => {
-        this.setState({error: true})
+      .catch((err) => {
+        this.setState({ error: true });
       });
   }
 
@@ -82,30 +82,49 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Max',
-        address: {
-          street: 'Teststreet 1',
-          zipCode: '12345',
-          country: 'Poland',
-        },
-        email: 'test@test.com',
-      },
-      deliveryMethod: 'fastest',
-    };
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: 'Max',
+    //     address: {
+    //       street: 'Teststreet 1',
+    //       zipCode: '12345',
+    //       country: 'Poland',
+    //     },
+    //     email: 'test@test.com',
+    //   },
+    //   deliveryMethod: 'fastest',
+    // };
 
-    axios
-      .post('/orders.json', order)
-      .then((res) => {
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false, purchasing: false });
-      });
+    // axios
+    //   .post('/orders.json', order)
+    //   .then((res) => {
+    //     this.setState({ loading: false, purchasing: false });
+    //   })
+    //   .catch((err) => {
+    //     this.setState({ loading: false, purchasing: false });
+    //   });
+
+    // this.props.history.push('/checkout');
+
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      // encodeURLComponent - zmiana właściwości, że mogą być w url
+      queryParams.push(
+        encodeURIComponent(i) +
+          '=' +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    
+    const queryString = queryParams.join('&')
+
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString,
+    });
   };
 
   render() {
@@ -117,7 +136,11 @@ class BurgerBuilder extends Component {
     }
 
     let orderSummary = null;
-    let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
+    let burger = this.state.error ? (
+      <p>Ingredients can't be loaded</p>
+    ) : (
+      <Spinner />
+    );
 
     if (this.state.ingredients) {
       burger = (
@@ -144,7 +167,6 @@ class BurgerBuilder extends Component {
       );
     }
 
-        
     if (this.state.loading) {
       orderSummary = <Spinner />;
     }
