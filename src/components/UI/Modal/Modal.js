@@ -4,21 +4,21 @@ import Backdrop from '../Backdrop/Backdrop';
 import classes from './Modal.module.css';
 
 class Modal extends Component {
-
   shouldComponentUpdate(nextProps, nextState) {
-      return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
+    return (
+      nextProps.show !== this.props.show ||
+      nextProps.children !== this.props.children
+    );
   }
 
   // componentDidUpdate() {
   //   console.log('[Modal]');
   // }
 
-
   render() {
-
     return (
       <>
-        <Backdrop show={this.props.show} clicked={this.props.modalClosed}/>
+        <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
         <div
           className={classes.Modal}
           style={{
@@ -31,6 +31,6 @@ class Modal extends Component {
       </>
     );
   }
-};
+}
 
 export default React.memo(Modal);

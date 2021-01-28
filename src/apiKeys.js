@@ -1,3 +1,3 @@
 // firebase API key
 
-export const apiKey = ''
+export const apiKey = '';

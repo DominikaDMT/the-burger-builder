@@ -16,12 +16,11 @@ class App extends Component {
   render() {
     let routes = (
       <>
-      <Switch>
-        <Route path='/auth' component={Auth} />
-        <Route path='/' exact component={BurgerBuilder} />
-        <Redirect to='/'/>
-      </Switch>
-
+        <Switch>
+          <Route path='/auth' component={Auth} />
+          <Route path='/' exact component={BurgerBuilder} />
+          <Redirect to='/' />
+        </Switch>
       </>
     );
 
@@ -31,17 +30,13 @@ class App extends Component {
           <Route path='/' exact component={BurgerBuilder} />
           <Route path='/checkout' component={Checkout} />
           <Route path='/orders' component={Orders} />
+          <Route path='/auth' component={Auth} />
           <Route path='/logout' component={Logout} />
-        <Redirect to='/'/>
-
+          <Redirect to='/' />
         </>
       );
     }
-    return (
-      <Layout>
-        {routes}
-      </Layout>
-    );
+    return <Layout>{routes}</Layout>;
   }
 }
 
