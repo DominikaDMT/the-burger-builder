@@ -68,7 +68,7 @@ export const auth = (email, password, isSignup) => {
       })
       .catch((err) => {
         // axios owija response w error obj
-        dispatch(authFail(err.response.data.error));
+        dispatch(authFail(err.response.data.error.message));
       });
   };
 };
@@ -97,3 +97,10 @@ export const authCheckState = () => {
     }
   };
 };
+
+
+export const authReset = () => {
+  return {
+    type: actionTypes.AUTH_RESET
+  }
+}

@@ -80,6 +80,7 @@ class Auth extends Component {
         isSignup: !prevState.isSignup,
       };
     });
+    this.props.onReset();
   };
 
   render() {
@@ -111,7 +112,7 @@ class Auth extends Component {
     let errorMessage = null;
 
     if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>;
+      errorMessage = <p>{this.props.error}</p>;
     }
 
     let authRedirect = null;
@@ -123,14 +124,15 @@ class Auth extends Component {
       <div className={classes.Auth}>
         {authRedirect}
         {errorMessage}
+        {this.state.isSignup ? <p>REGISTER</p> : <p>LOG IN</p>}
         <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType='Success'>SUBMIT</Button>
-          <Button btnType='Danger' clicked={this.switchAuthModeHandler}>
-            {' '}
-            SWITCH {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}
-          </Button>
         </form>
+        <Button btnType='Danger' clicked={this.switchAuthModeHandler}>
+          {' '}
+          SWITCH TO {this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}
+        </Button>
       </div>
     );
   }
@@ -146,12 +148,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToPtops = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignup) =>
       dispatch(actions.auth(email, password, isSignup)),
     onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
+    onReset: () => dispatch(actions.authReset()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToPtops)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

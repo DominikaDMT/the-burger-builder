@@ -24,3 +24,7 @@ yarn-error.log*
 
 # API keys
 src/apiKeys.js
+src/store/reducers/auth.test.js
+src/components/Navigation/NavigationItems/NavigationItems.test.js
+src/containers/BurgerBuilder/BurgerBuilder.test.js
+
